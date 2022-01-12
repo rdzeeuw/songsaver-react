@@ -32,9 +32,15 @@ function Container() {
             artist: 'Nirvana',
             genre: 'rock',
             rating: 2
+        },
+        {
+            id: 5,
+            songTitle: 'Teenage Wasteland',
+            artist: 'The Wo',
+            genre: 'rock',
+            rating: 5
         }
     ])
-// console.log(songList)
 
     const [formData, setFormData] = useState([
         {
@@ -46,8 +52,11 @@ function Container() {
     ])
 
     const [searchTerm, setSearchTerm] = useState('')
+    const [sortedList, setSortedList] = useState([])
+    const [filteredList, setFilteredList] = useState([])
 
-    function handleChange(event) {
+// functionality to add song via form
+    function handleFormData(event) {
         const {name, value} = event.target
         setFormData(prevData => {
             return {
@@ -57,7 +66,7 @@ function Container() {
         })
     }
 
-    function handleSubmit(event) {
+    function handleSubmitForm(event) {
         event.preventDefault()
         // create new song object
        const newSong = {
@@ -72,41 +81,68 @@ function Container() {
        setSongList(newSongs)
     }
 
-function deleteItem(songId) {
-    const newSongs = [...songList]
+// delete song from list via button
+    function deleteItem(songId) {
+        const newSongs = [...songList]
 
-    const index = songList.findIndex((song) => song.id === songId)
-    newSongs.splice(index, 1)
+        const index = songList.findIndex((song) => song.id === songId)
+        newSongs.splice(index, 1)
 
-    setSongList(newSongs)
-}
+        setSongList(newSongs)
+    }
 
-function sortGenres(event) {
-    const selected = event.target.value
+// functionality to filter list by genre and search input
+    function filterWithSelect(type) {
+        const genreTypes = {
+            classical: 'classical',
+            jazz: 'jazz',
+            pop: 'pop',
+            rock: 'rock'
+          }
+
+        const genre = genreTypes[type];
+        
+        // const filteredGenres = [...songList].filter((song) => song.genre === genre);
+        
+    }
+
+    function handleSearch(event) {
+        const value = event.target.value
+        setSearchTerm(value)
+    }
+
+// functionality to sort by title, asrtist, genre, rating
+
+    const sortList = type => {
+        const types = {
+          title: 'title',
+          artist: 'artist',
+          genre: 'genre',
+          rating: 'rating'
+        }
+        const sortProperty = types[type];
+        const sorted = [...songList].sort((a, b) => b[sortProperty] - a[sortProperty]);
+        console.log(sorted)
+        setSortedList(sorted);
+        // console.log(sortedList);
+      }
     
-    const filterdGenres = songList.filter(item => item.genre === selected )
-    console.log(filterdGenres)
-}
-
-function handleSearch(event) {
-    const value = event.target.value
-    setSearchTerm(value)
-}
 
     return (
         <main className="container">
             <Form 
-                 handleChange={handleChange}
-                 handleSubmit={handleSubmit}
+                 handleFormData={handleFormData}
+                 handleSubmitForm={handleSubmitForm}
                  formData={formData} 
             />
-            
             <List 
                 songList={songList} 
                 deleteItem={deleteItem}
-                sortGenres={sortGenres}
                 handleSearch={handleSearch}
                 searchTerm={searchTerm}
+                filteredList={filteredList}
+                sortList={sortList}
+                filterWithSelect={filterWithSelect}
             />
         </main>
     )

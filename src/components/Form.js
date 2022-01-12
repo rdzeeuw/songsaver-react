@@ -2,25 +2,27 @@ import React from 'react'
 
 function Form(props) {
     return (
-        <form className='songs-form' onSubmit={props.handleSubmit}>
+        <form className='songs-form' onSubmit={props.handleSubmitForm}>
             <h3 className='form-title'>Your favourite song:</h3>
             <hr></hr>
             <label htmlFor="songTitle">Song Title</label>
             <input 
+                className="input"
                 type="text" 
                 name="songTitle" 
                 placeholder="Enter song title"
                 value={props.formData.songTitle}
-                onChange={props.handleChange}
+                onChange={props.handleFormData}
                 required
             />
             <label htmlFor="artist">Artist</label>
             <input 
+                className="input"
                 type="text" 
                 name="artist" 
                 placeholder="Enter artist name"
                 value={props.formData.artist}
-                onChange={props.handleChange}
+                onChange={props.handleFormData}
                 required
             />
             <label>
@@ -29,7 +31,7 @@ function Form(props) {
                     className='form-select'
                     name="genre"
                     value={props.formData.genre} 
-                    onChange={props.handleChange}
+                    onChange={props.handleFormData}
                     required >
                     <option value="">-- Pick a genre --</option>
                     <option value="classical">Classical</option>
@@ -44,7 +46,7 @@ function Form(props) {
                     className='form-select'
                     name="rating"
                     value={props.formData.rating} 
-                    onChange={props.handleChange}
+                    onChange={props.handleFormData}
                     required >
                     <option value="">-- Choose you rating --</option>
                     <option value="1">1</option>
