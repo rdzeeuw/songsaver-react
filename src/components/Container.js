@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { nanoid } from 'nanoid'
 import Form from './Form'
 import List from './List'
@@ -7,55 +7,45 @@ function Container() {
     const [songList, setSongList] = useState([
         {
             id: 1,
-            songTitle: 'Yesterday',
+            title: 'Yesterday',
             artist: 'The beatles',
             genre: 'pop',
             rating: 4
         },
         {
             id: 2,
-            songTitle: 'St Matthew Passion',
+            title: 'St Matthew Passion',
             artist: 'J.S. Bach',
             genre: 'classical',
             rating: 5
         },
         {
             id: 3,
-            songTitle: 'My Funny Valentine',
+            title: 'My Funny Valentine',
             artist: 'Ella Fitzgerald',
             genre: 'jazz',
             rating: 3
         },
         {
             id: 4,
-            songTitle: 'Litheum',
+            title: 'Litheum',
             artist: 'Nirvana',
             genre: 'rock',
             rating: 2
         },
         {
             id: 5,
-            songTitle: 'Teenage Wasteland',
-            artist: 'The Wo',
+            title: 'Teenage Wasteland',
+            artist: 'The Who',
             genre: 'rock',
             rating: 5
         }
     ])
 
-    const [formData, setFormData] = useState([
-        {
-            songTitle: '',
-            artist: '',
-            genre: '',
-            rating: ''
-        }
-    ])
+    const [formData, setFormData] = useState([])
+    const [sortedSongs, setSortedSongs] = useState([])
 
-    const [searchTerm, setSearchTerm] = useState('')
-    const [sortedList, setSortedList] = useState([])
-    const [filteredList, setFilteredList] = useState([])
-
-// functionality to add song via form
+    // functionality to add song via form
     function handleFormData(event) {
         const {name, value} = event.target
         setFormData(prevData => {
@@ -71,7 +61,7 @@ function Container() {
         // create new song object
        const newSong = {
             id: nanoid(),
-            songTitle: formData.songTitle,
+            title: formData.title,
             artist: formData.artist,
             genre: formData.genre,
             rating: formData.rating
@@ -81,53 +71,71 @@ function Container() {
        setSongList(newSongs)
     }
 
-// delete song from list via button
+    // delete song from list via button
     function deleteItem(songId) {
-        const newSongs = [...songList]
+        const newSongs = [...sortedSongs]
 
-        const index = songList.findIndex((song) => song.id === songId)
+        const index = sortedSongs.findIndex((song) => song.id === songId)
         newSongs.splice(index, 1)
 
-        setSongList(newSongs)
+        setSortedSongs(newSongs)
+
     }
 
-// functionality to filter list by genre and search input
-    function filterWithSelect(type) {
-        const genreTypes = {
-            classical: 'classical',
-            jazz: 'jazz',
-            pop: 'pop',
-            rock: 'rock'
-          }
-
-        const genre = genreTypes[type];
+    // functionality to filter list by genre and search input
+    const [searchTerm, setSearchTerm] = useState('')
         
-        // const filteredGenres = [...songList].filter((song) => song.genre === genre);
-        
-    }
-
     function handleSearch(event) {
         const value = event.target.value
         setSearchTerm(value)
     }
 
-// functionality to sort by title, asrtist, genre, rating
+    const [genre, setGenre] = useState('') 
+    const [rating, setRating] = useState('') 
 
-    const sortList = type => {
-        const types = {
-          title: 'title',
-          artist: 'artist',
-          genre: 'genre',
-          rating: 'rating'
+    function filterByGenre(event) {
+        const value = event.target.value
+        setGenre(value)
+    }
+
+    function filterByRating(event) {
+        const value = event.target.value
+        setRating(value)
+    }  
+
+    // functionality to sort by title, artist, genre, rating
+    const [sortType, setSortType] = useState('artist')
+
+    useEffect(() => { 
+        const sortList = type => {
+            const types = {
+            title: 'title',
+            artist: 'artist',
+            genre: 'genre',
+            rating: 'rating'
+            }
+            
+            const sortProperty = types[type];
+            if(!type){
+                const sorted = [...songList]
+                setSortedSongs(sorted)
+            }
+            else if(type === 'rating') {
+                const sorted = [...songList].sort((a, b) => {
+                    return b[sortProperty] > a[sortProperty] ? 1 : -1
+                })
+                setSortedSongs(sorted);
+            } else {
+                const sorted = [...songList].sort((a, b) => {
+                    return b[sortProperty] < a[sortProperty] ? 1 : -1
+                })
+                setSortedSongs(sorted);
+            }
         }
-        const sortProperty = types[type];
-        const sorted = [...songList].sort((a, b) => b[sortProperty] - a[sortProperty]);
-        console.log(sorted)
-        setSortedList(sorted);
-        // console.log(sortedList);
-      }
-    
 
+        sortList(sortType)
+    }, [sortType])
+    
     return (
         <main className="container">
             <Form 
@@ -136,13 +144,15 @@ function Container() {
                  formData={formData} 
             />
             <List 
-                songList={songList} 
+                genre={genre}
+                rating={rating}
+                filterByGenre={filterByGenre}
+                filterByRating={filterByRating}
                 deleteItem={deleteItem}
                 handleSearch={handleSearch}
                 searchTerm={searchTerm}
-                filteredList={filteredList}
-                sortList={sortList}
-                filterWithSelect={filterWithSelect}
+                sortedSongs={sortedSongs}
+                setSortType={setSortType}
             />
         </main>
     )

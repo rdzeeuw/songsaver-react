@@ -5,13 +5,13 @@ function Form(props) {
         <form className='songs-form' onSubmit={props.handleSubmitForm}>
             <h3 className='form-title'>Your favourite song:</h3>
             <hr></hr>
-            <label htmlFor="songTitle">Song Title</label>
+            <label htmlFor="title">Song Title</label>
             <input 
                 className="input"
                 type="text" 
-                name="songTitle" 
+                name="title" 
                 placeholder="Enter song title"
-                value={props.formData.songTitle}
+                value={props.formData.title}
                 onChange={props.handleFormData}
                 required
             />
