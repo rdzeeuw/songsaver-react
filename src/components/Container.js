@@ -4,6 +4,7 @@ import Form from './Form'
 import List from './List'
 
 function Container() {
+    // state ----------------------------------------------
     const [songList, setSongList] = useState([
         {
             id: 1,
@@ -43,9 +44,11 @@ function Container() {
     ])
 
     const [formData, setFormData] = useState([])
-    const [sortedSongs, setSortedSongs] = useState([])
+    const [genre, setGenre] = useState('') 
+    const [rating, setRating] = useState('') 
+    const [searchTerm, setSearchTerm] = useState('')
 
-    // functionality to add song via form
+    // Add song via form -----------------------------------
     function handleFormData(event) {
         const {name, value} = event.target
         setFormData(prevData => {
@@ -56,9 +59,10 @@ function Container() {
         })
     }
 
+    // submitting the form and add to state -----------------
     function handleSubmitForm(event) {
         event.preventDefault()
-        // create new song object
+       
        const newSong = {
             id: nanoid(),
             title: formData.title,
@@ -66,33 +70,22 @@ function Container() {
             genre: formData.genre,
             rating: formData.rating
        }
-       // create new array with new song
+       
        const newSongs = [...songList, newSong]
        setSongList(newSongs)
     }
 
-    // delete song from list via button
+    // delete song from list via delete-button ---------------------------
     function deleteItem(songId) {
-        const newSongs = [...sortedSongs]
+        const newSongs = [...songList]
 
-        const index = sortedSongs.findIndex((song) => song.id === songId)
+        const index = songList.findIndex((song) => song.id === songId)
         newSongs.splice(index, 1)
 
-        setSortedSongs(newSongs)
-
+        setSongList(newSongs)
     }
 
-    // functionality to filter list by genre and search input
-    const [searchTerm, setSearchTerm] = useState('')
-        
-    function handleSearch(event) {
-        const value = event.target.value
-        setSearchTerm(value)
-    }
-
-    const [genre, setGenre] = useState('') 
-    const [rating, setRating] = useState('') 
-
+    // filter list by genre, rating and search input----------------
     function filterByGenre(event) {
         const value = event.target.value
         setGenre(value)
@@ -103,14 +96,21 @@ function Container() {
         setRating(value)
     }  
 
-    // functionality to sort by title, artist, genre, rating
+    function handleSearch(event) {
+        const value = event.target.value
+        setSearchTerm(value)
+    }
+
+    // sort by title, artist, genre, rating --------------------------
     const [sortType, setSortType] = useState('artist')
 
     useEffect(() => { 
         const sortList = type => {
             const types = {
             title: 'title',
+            titleDesc: 'titleDesc',
             artist: 'artist',
+            artistDesc: 'artistDesc',
             genre: 'genre',
             rating: 'rating'
             }
@@ -118,24 +118,24 @@ function Container() {
             const sortProperty = types[type];
             if(!type){
                 const sorted = [...songList]
-                setSortedSongs(sorted)
+                setSongList(sorted)
             }
-            else if(type === 'rating') {
+            else if(type === 'rating' || type === 'artistDesc' || type === 'titleDesc') {
                 const sorted = [...songList].sort((a, b) => {
                     return b[sortProperty] > a[sortProperty] ? 1 : -1
                 })
-                setSortedSongs(sorted);
+                setSongList(sorted);
             } else {
                 const sorted = [...songList].sort((a, b) => {
                     return b[sortProperty] < a[sortProperty] ? 1 : -1
                 })
-                setSortedSongs(sorted);
+                setSongList(sorted);
             }
         }
 
         sortList(sortType)
     }, [sortType])
-    
+    // ----------------------------- render -------------------------------
     return (
         <main className="container">
             <Form 
@@ -144,6 +144,7 @@ function Container() {
                  formData={formData} 
             />
             <List 
+                songList={songList}
                 genre={genre}
                 rating={rating}
                 filterByGenre={filterByGenre}
@@ -151,8 +152,6 @@ function Container() {
                 deleteItem={deleteItem}
                 handleSearch={handleSearch}
                 searchTerm={searchTerm}
-                sortedSongs={sortedSongs}
-                setSortType={setSortType}
             />
         </main>
     )

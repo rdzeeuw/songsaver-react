@@ -2,7 +2,9 @@ import React from 'react'
 
 function Form(props) {
     return (
-        <form className='songs-form' onSubmit={props.handleSubmitForm}>
+        <form 
+            className='songs-form' 
+            onSubmit={props.handleSubmitForm}>
             <h3 className='form-title'>Your favourite song:</h3>
             <hr></hr>
             <label htmlFor="title">Song Title</label>
@@ -57,7 +59,6 @@ function Form(props) {
                 </select>
             </label>
             <hr></hr>
-
             <input className="submit-btn"  type="submit" value="Add song" />
         </form>
     )

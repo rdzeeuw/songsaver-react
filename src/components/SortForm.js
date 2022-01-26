@@ -3,7 +3,6 @@ import React from 'react'
 function SortForm(props) {
     return (
         <div className='sort-form'>
-                <h3>Your favourite songs!</h3>
                 <div className="sort-by">
                     <div className="sort-input">
                         <label htmlFor="sort" className="sort-title">Filter by genre</label>
@@ -30,9 +29,9 @@ function SortForm(props) {
                             >
                             <option value="">-- Pick a rating --</option>
                             <option value={1}>1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
+                            <option value={2}>2</option>
+                            <option value={3}>3</option>
+                            <option value={4}>4</option>
                             <option value={5}>5</option>
                         </select>
                     </div>
@@ -42,7 +41,8 @@ function SortForm(props) {
                             className="input"
                             type="text" 
                             placeholder="Search..."
-                            onChange={props.handleSearch}/>
+                            onChange={props.handleSearch}
+                        />
                     </div>
                 </div>
             </div>

@@ -3,14 +3,20 @@ import ListItem from './ListItem'
 import SortForm from './SortForm'
 
 function List(props) {
-    
-    const songListDisplay = props.sortedSongs.filter((song) => {
+    const songListDisplay = props.songList.filter((song) => {
         if(props.genre === ''){
             return song
-        } else if(song.rating === props.rating){
-            return song 
         } else if(song.genre === props.genre){
             return song
+        } else {
+            return ''
+        }
+    }).filter((song) => {
+        const rating = `${song.rating}`
+        if(props.rating === ''){
+            return song
+        } else if(rating === props.rating){
+            return song 
         } else {
             return ''
         }
@@ -41,13 +47,13 @@ function List(props) {
                 filterByRating={props.filterByRating}
                 />
             <table className='list'>
-                <thead className="list-header">
-                    <tr className="list-row"> 
-                        <th className="list-header-item">Artist</th>
-                        <th className="list-header-item">Song Title</th>
-                        <th className="list-header-item">Genre</th>
-                        <th className="list-header-item">Rating</th>
-                        <th className="list-header-item">
+                <thead>
+                    <tr className="list-header"> 
+                        <td className="list-header-item">Artist</td>
+                        <td className="list-header-item">Song Title</td>
+                        <td className="list-header-item">Genre</td>
+                        <td className="list-header-item">Rating</td>
+                        <td className="list-header-item">
                             <select 
                                 className='form-select'
                                 name="sortListBy"
@@ -55,16 +61,18 @@ function List(props) {
                              >
                                 <option name="" value="">-- Sort list by --</option>
                                 <option name="title" value="title">Song Title A-Z</option>
+                                <option name="titleDesc" value="titleDesc">Song Title Z-A</option>
                                 <option name="artist" value="artist">Artist A-Z</option>
+                                <option name="artistDesc" value="artistDesc">Artist Z-A</option>
                                 <option name="genre" value="genre">Genre</option>
                                 <option name="rating" value="rating">Highest Rating</option>
                             </select>
                        
-                        </th>
+                        </td>
                     </tr>
                 </thead>
                 <tbody>
-                    {props.sortedSongs.length > 0 ? songListDisplay : 
+                    {props.songList.length > 0 ? songListDisplay : 
                     <tr>
                         <td className='empty-message'>Your favourite songs list is currently empty</td>
                     </tr> }

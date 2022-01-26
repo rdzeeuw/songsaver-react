@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Damion&family=Raleway:wght@300&display=swap');
+
 :root {
-  --clr-main: #008D89;
-  --clr-accent: #D0DE15;
-  --clr-light: #E6F4F1;
-  --clr-dark: #324A51;
+  --clr-main: #532973;
+  --clr-accent: #00B4A2;
+  --clr-light: #FEF7FF;
+  --clr-dark: #384955;
 }
 
 * {
@@ -15,6 +17,12 @@ body {
   height: auto;
   min-height: 100vh;
   background-color: var(--clr-main);
+  background-image: url(./images/bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: 'Raleway', sans-serif;
+  color: var(--clr-dark);
+  font-weight: bold;
 }
 
 hr {
@@ -25,27 +33,37 @@ hr {
 }
 
 .header {
-  background: linear-gradient(60deg, #008D89 0 50%, #006A7C);
-  background: var(--clr-main);
   width: 100%;
   padding: 1em 2em;
-  height: 75px;
+  height: 100px;
+  background: rgba(83, 41, 115, .8);
+  position:sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  box-shadow: 3px 3px 10px rgba(0,0,0,.4);
 }
 
 .title {
   line-height: 1;
   color: white;
   text-transform: uppercase;
+  font-family: 'Bangers', cursive;
+  font-size: 3rem;
 }
 
 .sub-title {
   line-height: 1;
   color: var(--clr-accent);
   font-size: 1.5em;
-  transform: rotate(-2deg), translate(50px, 20px);
+  font-family: 'Damion', cursive;
+  transform: rotate(-3deg) translate(150px, -25px) ;
+  z-index: 9;
 }
 
 .container {
+  padding-top: 3rem;
+  padding-bottom: 5rem;
   width: 100%;
   min-height: calc(100vh - 100px);
   display: grid;
@@ -55,11 +73,10 @@ hr {
 .songs-form {
   width: 100%;
   min-width: 250px;
-  padding: 2em 2em;
-  background: var(--clr-main);
+  padding: 5em 2em;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   gap: .5em;
 }
 
@@ -94,6 +111,7 @@ label {
   padding: .5em .7em;
   border: 2px solid var(--clr-dark);
   border-radius: 20px;
+  cursor: pointer;
 }
 
 .sort-form {
@@ -122,7 +140,6 @@ label {
   display: flex;
   flex-direction: column;
   margin-right: 1em;
-  
 }
 
 .sort-title {
@@ -132,7 +149,7 @@ label {
 
 .list-container {
   width: 90%;
-  max-width: 800px;
+  max-width: 1000px;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -149,7 +166,10 @@ label {
 
 .list-row {
   display: flex;
-  
+  align-items: center;
+  background-image: linear-gradient(90deg, var(--clr-light), var(--clr-accent) 120%);
+  outline: 3px solid var(--clr-accent);
+  outline-offset: -6px;
 }
 
 .list-header {
@@ -169,26 +189,29 @@ label {
   padding: .5em 0;
   width: 25%;
   min-width: 120px;
-  
+  text-align: left;
+  padding: .5em 1em;
 }
 
 .list-item {
   width: 25%;
   min-width: 120px;
-  color: var(--clr-light);
-  background-color: var(--clr-dark);
+  color: var(--clr-dark);
   padding: .5em 1em;
   text-align: left;
 }
 
 .delete-item {
-  width: 70px; 
-  min-width: 70px;
+  text-align: right;
 }
 
 .dlt-btn {
   cursor: pointer;
   font-size: 2em;
+}
+
+.dlt-btn:hover {
+  color: var(--clr-light);
 }
 
 .empty-message {
@@ -200,10 +223,11 @@ label {
 
 .footer {
   width: 100%;
-  background: var(--clr-dark);
+  background: var(--clr-main);
   height: 25px;
   display: flex;
   justify-content: center;
   align-items: center;
   color: var(--clr-light);
+  font-size: .8em;
 }
