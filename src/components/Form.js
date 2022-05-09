@@ -59,7 +59,7 @@ function Form(props) {
                 </select>
             </label>
             <hr></hr>
-            <input className="submit-btn"  type="submit" value="Add song" />
+            <input className="submit-btn" type="submit" value="Add song" />
         </form>
     )
 }

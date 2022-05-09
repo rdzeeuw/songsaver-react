@@ -73,6 +73,7 @@ function Container() {
        
        const newSongs = [...songList, newSong]
        setSongList(newSongs)
+       event.target.reset()
     }
 
     // delete song from list via delete-button ---------------------------
@@ -152,6 +153,7 @@ function Container() {
                 deleteItem={deleteItem}
                 handleSearch={handleSearch}
                 searchTerm={searchTerm}
+                setSortType={setSortType}
             />
         </main>
     )
